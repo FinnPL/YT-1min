@@ -16,7 +16,7 @@ def get_recommendation(video_url):
     # get the html content
     response = session.get(video_url)
     # execute Java-script
-    response.html.render(sleep=1)
+    response.html.render(sleep=2)
     # create bs object to parse HTML
     soup = bs(response.html.html, "html.parser")
 
@@ -40,14 +40,27 @@ def check_vidio_length(video_id):
     all_data=data['items']
     contentDetails=all_data[0]['contentDetails']
     duration=contentDetails['duration']
-    print (duration)
+    #print (duration)
+    return duration
+
+def is_shorter_than_1min(duration):
+    if "M" not in duration and "H" not in duration:
+        #print("true!!")
+        return True
+
 
 
 def main():
     list = get_recommendation('https://www.youtube.com/watch?v=xqFTe96OWPU')
     print(list)
     for i in list:
-        check_vidio_length(i)
+       if is_shorter_than_1min(check_vidio_length(i)):
+           print("https://www.youtube.com/watch?v="+i)
+
+       #if is_shorter_than_1min(x):
+       #     print(i +" : " +x)
+
+
 
 if __name__ == "__main__":
     main()
