@@ -54,18 +54,19 @@ def is_shorter_than_1min(duration):
 
 def get_next_20(seed_video_url,index,list):
     if index<=20:
-        found=False
         list = get_recommendation(seed_video_url)
-        while not found:
             if not list:
-                list = get_recommendation(seed_video_url)
+                print("keine Liste")
+                return;
             for i in list:
                 if is_shorter_than_1min(check_vidio_length(i)):
-                    found = True
+                    list.append(seed_vido_url)
                     list2 =get_next_20("https://www.youtube.com/watch?v="+i,index+1,list)
-                    return list2;
+                    if(list2!=null):
+                        return list2;
+            return;
     else:
-        return;
+        return list;
 
 def main():
     result = list() 
