@@ -53,7 +53,7 @@ def get_recommendation(video_url):
             x=x.replace('https://www.youtube.com','')
             if x not in recom_ids and "&pp=" not in x and "&t=" not in x and "&list=" not in x:
                 recom_ids.append(x)
-    
+
     recom_ids.remove('video_url')
     return recom_ids
 
