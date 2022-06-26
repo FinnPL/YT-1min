@@ -1,4 +1,3 @@
-from operator import contains
 from urllib import request, response
 from googleapiclient.discovery import build
 from requests_html import HTMLSession 
