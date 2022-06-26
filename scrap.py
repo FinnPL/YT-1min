@@ -1,24 +1,46 @@
-#scrap youtube recommendation of a video
-from http.client import FOUND
-from threading import main_thread
+from operator import contains
+from urllib import request, response
+from googleapiclient.discovery import build
 from requests_html import HTMLSession 
 from bs4 import BeautifulSoup as bs
-import re
-import json
-import urllib
 import config
+import time
+import re
+import time
+import google_auth_oauthlib.flow
+import googleapiclient.discovery
+import googleapiclient.errors
+
+api_key = config.api_key
+
+youtube = build('youtube', 'v3', developerKey=api_key)
 
 
+#Get youtube video length
+def get_video_length(video_id):
+    request  = youtube.videos().list(
+        part='contentDetails',
+        id=video_id
+    )
+    response = request.execute()
+    return response['items'][0]['contentDetails']['duration']
 
+def is_shorter_than_1min(video_id):
+    x = get_video_length(video_id)
+    if "M" not in x and "H" not in x and "S" in x:
+        return True
+    else:
+        return False
 
 def get_recommendation(video_url):
     # init an HTML Session
     session = HTMLSession()
     # get the html content
-    print (video_url)
+    print ("Searching in " +video_url)
     response = session.get(video_url)
     # execute Java-script
     response.html.render(sleep=2)
+    time.sleep(2)
     # create bs object to parse HTML
     soup = bs(response.html.html, "html.parser")
 
@@ -30,56 +52,38 @@ def get_recommendation(video_url):
         if re.search("/watch\?v=", x):
             x=x.replace("/watch?v=", "")
             x=x.replace('https://www.youtube.com','')
-            if x not in recom_ids:
+            if x not in recom_ids and "&pp=" not in x and "&t=" not in x and "&list=" not in x:
                 recom_ids.append(x)
     
     recom_ids.remove('video_url')
     return recom_ids
 
-def check_vidio_length(video_id):
-    #video_id =video_id.replace('https://www.youtube.com','')
-    searchUrl="https://www.googleapis.com/youtube/v3/videos?id="+video_id+"&key="+config.api_key+"&part=contentDetails"
-    response = urllib.request.urlopen(searchUrl).read()
-    data = json.loads(response)
-    all_data=data['items']
-    contentDetails=all_data[0]['contentDetails']
-    duration=contentDetails['duration']
-    return duration
 
-def is_shorter_than_1min(duration):
-    if "M" not in duration and "H" not in duration:
-        return True
+def rabit(video_url,found_list):
+    if (found_list.__len__()>=50):
+        return found_list
 
-
-
-def get_next_20(seed_video_url,index,list):
-    if index<=20:
-        found=False
-        list = get_recommendation(seed_video_url)
-        while not found:
-            if not list:
-                list = get_recommendation(seed_video_url)
-            for i in list:
-                if is_shorter_than_1min(check_vidio_length(i)):
-                    found = True
-                    list2 =get_next_20("https://www.youtube.com/watch?v="+i,index+1,list)
-                    return list2;
-    else:
+    list = get_recommendation(video_url)
+    print ('Liste: ')
+    print (list)
+    if not list:
+        print("keine Liste")
         return;
-
-def main():
-    result = list() 
-    recom_ids = list()
-    result =get_next_20("https://www.youtube.com/watch?v=xqFTe96OWPU",0,recom_ids)
-    print (result)
-    
-    #list = get_recommendation('https://www.youtube.com/watch?v=xqFTe96OWPU')
-    #print(list)
-    #for i in list:
-    #   if is_shorter_than_1min(check_vidio_length(i)):
-    #       print("https://www.youtube.com/watch?v="+i)
+    else:
+        for i in list:
+            if is_shorter_than_1min(i):
+                if i not in found_list:
+                    print("Video gefunden: " + i)
+                    found_list.append(i)
+                    return_list= rabit("https://www.youtube.com/watch?v="+i,found_list)
+                    if return_list:
+                        return return_list
 
 
 
-if __name__ == "__main__":
-    main()
+
+found_list = list()
+list2 = list()
+list2 = rabit("https://www.youtube.com/watch?v=hdWFXa_KqN0",found_list)
+for i in list2:
+    print("https://www.youtube.com/watch?v="+i)
