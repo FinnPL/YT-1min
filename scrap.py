@@ -29,8 +29,7 @@ def is_shorter_than_1min(video_id):
     x = get_video_length(video_id)
     if "M" not in x and "H" not in x and "S" in x:
         return True
-    else:
-        return False
+    return False
 
 def get_recommendation(video_url):
     # init an HTML Session
@@ -69,15 +68,14 @@ def rabit(video_url,found_list):
     if not list:
         print("keine Liste")
         return;
-    else:
-        for i in list:
-            if is_shorter_than_1min(i):
-                if i not in found_list:
-                    print("Video gefunden: " + i)
-                    found_list.append(i)
-                    return_list= rabit("https://www.youtube.com/watch?v="+i,found_list)
-                    if return_list:
-                        return return_list
+    for i in list:
+        if is_shorter_than_1min(i):
+            if i not in found_list:
+                print("Video gefunden: " + i)
+                found_list.append(i)
+                return_list= rabit("https://www.youtube.com/watch?v="+i,found_list)
+                if return_list:
+                    return return_list
 
 
 
