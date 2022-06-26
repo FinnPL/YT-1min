@@ -48,7 +48,7 @@ def get_recommendation(video_url):
 
     for a in soup.find_all('a', href=True):
         x = a['href']
-        if re.search("/watch\?v=", x):
+        if re.search(r"/watch\?v=", x):
             x=x.replace("/watch?v=", "")
             x=x.replace('https://www.youtube.com','')
             if x not in recom_ids and "&pp=" not in x and "&t=" not in x and "&list=" not in x:
