@@ -56,7 +56,7 @@ def get_recommendation(video_url):
 
 
 def rabit(video_url, found_list):
-    if(found_list.__len__() >= 50):
+    if found_list.__len__() >= 50:
         return found_list
 
     list = get_recommendation(video_url)
@@ -66,18 +66,20 @@ def rabit(video_url, found_list):
         print("keine Liste")
         return
     for i in list:
-        if is_shorter_than_1min(i):
-            if i not in found_list:
-                print("Video gefunden: " + i)
-                found_list.append(i)
-                return_list = rabit(
+        if is_shorter_than_1min(i) and i not in found_list:
+             print("Video gefunden: " + i)
+             found_list.append(i)
+             return_list = rabit(
                     "https://www.youtube.com/watch?v="+i, found_list)
-                if return_list:
-                    return return_list
+             if return_list:
+                 return return_list
 
+def main():
+     found_list = list()
+     list2 = list()
+     list2 = rabit("https://www.youtube.com/watch?v=hdWFXa_KqN0", found_list)
+     for i in list2:
+         print("https://www.youtube.com/watch?v="+i)
 
-found_list = list()
-list2 = list()
-list2 = rabit("https://www.youtube.com/watch?v=hdWFXa_KqN0", found_list)
-for i in list2:
-    print("https://www.youtube.com/watch?v="+i)
+if __name__ == "__main__":
+    main()

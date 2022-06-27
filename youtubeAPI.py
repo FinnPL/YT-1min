@@ -12,6 +12,7 @@ import googleapiclient.errors
 
 scopes = ["https://www.googleapis.com/auth/youtube.force-ssl"]
 
+
 def main():
     # Disable OAuthlib's HTTPS verification when running locally.
     # *DO NOT* leave this option enabled in production.
@@ -31,18 +32,19 @@ def main():
     request = youtube.playlists().insert(
         part="snippet,status",
         body={
-          "snippet": {
-            "title": "New playlist",
-            "description": "New playlist description"
-          },
-          "status": {
-            "privacyStatus": "private"
-          }
+            "snippet": {
+                "title": "New playlist",
+                "description": "New playlist description"
+            },
+            "status": {
+                "privacyStatus": "private"
+            }
         }
     )
     response = request.execute()
 
     print(response)
+
 
 if __name__ == "__main__":
     main()
