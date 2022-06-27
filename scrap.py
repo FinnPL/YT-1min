@@ -41,7 +41,7 @@ def get_recommendation(video_url):
     # create bs object to parse HTML
     soup = bs(response.html.html, "html.parser")
 
-    recom_ids = list()
+    recom_ids = []
     recom_ids.append('video_url')
 
     for a in soup.find_all('a', href=True):
@@ -78,8 +78,8 @@ def rabit(video_url,found_list):
 
 
 
-found_list = list()
-list2 = list()
+found_list = []
+list2 = []
 list2 = rabit("https://www.youtube.com/watch?v=hdWFXa_KqN0",found_list)
 for i in list2:
     print("https://www.youtube.com/watch?v="+i)
