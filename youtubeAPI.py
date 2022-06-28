@@ -8,7 +8,6 @@ import os
 
 import google_auth_oauthlib.flow
 import googleapiclient.discovery
-import googleapiclient.errors
 
 scopes = ["https://www.googleapis.com/auth/youtube.force-ssl"]
 

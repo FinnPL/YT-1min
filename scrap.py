@@ -40,14 +40,14 @@ def get_recommendation(video_url):
     # create bs object to parse HTML
     soup = bs(response.html.html, "html.parser")
 
-    recom_ids = list()
+    recom_ids = []
     recom_ids.append('video_url')
 
     for a in soup.find_all('a', href=True):
         x = a['href']
         if re.search(r"/watch\?v=", x):
-            x = x.replace("/watch?v=","")
-            x = x.replace('https://www.youtube.com','')
+            x = x.replace("/watch?v=", "")
+            x = x.replace('https://www.youtube.com', '')
             if x not in recom_ids and "&pp=" not in x and "&t=" not in x and "&list=" not in x:
                 recom_ids.append(x)
 
@@ -75,11 +75,12 @@ def rabit(video_url, found_list):
                  return return_list
 
 def main():
-     found_list = list()
-     list2 = list()
-     list2 = rabit("https://www.youtube.com/watch?v=hdWFXa_KqN0", found_list)
-     for i in list2:
-         print("https://www.youtube.com/watch?v="+i)
+    found_list = []
+    list2 = []
+    list2 = rabit("https://www.youtube.com/watch?v=hdWFXa_KqN0", found_list)
+    for i in list2:
+        print("https://www.youtube.com/watch?v="+i)
+
 
 if __name__ == "__main__":
     main()
