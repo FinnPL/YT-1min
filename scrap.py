@@ -37,7 +37,7 @@ def get_video_length(video_id):
 def is_shorter_than_1min(video_id):
     """
     Check if a youtube video is shorter than 1 minute.
-    
+
     Parameters
     ----------
     video_id : String
@@ -48,7 +48,6 @@ def is_shorter_than_1min(video_id):
     Boolean
         True if the video is shorter than 1 minute.
     """
-
     x = get_video_length(video_id)
     if "M" not in x and "H" not in x and "S" in x:
         return True
@@ -58,7 +57,7 @@ def is_shorter_than_1min(video_id):
 def get_recommendation(video_url):
     """
     Get the recommendations for a youtube video.
-    
+
     Parameters
     ----------
     video_url : String
@@ -69,7 +68,6 @@ def get_recommendation(video_url):
     List
         The recommendations for the video (Video IDs).
     """
-    
     # init an HTML Session
     session = HTMLSession()
     # get the html content
@@ -111,7 +109,6 @@ def rabit(video_url, found_list):
     List
         The found videos (Video IDs).
     """
-    
     if found_list.__len__() >= 50:
         return found_list
 
