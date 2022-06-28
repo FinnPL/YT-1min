@@ -13,6 +13,19 @@ youtube = build('youtube', 'v3', developerKey=api_key)
 
 # Get youtube video length
 def get_video_length(video_id):
+    """
+    Get the length of a youtube video.
+
+    Parameters
+    ----------
+    video_id : String
+        The youtube video id.
+
+    Returns
+    -------
+    String
+        The length of the video as PT#M#S.
+    """
     request = youtube.videos().list(
         part='contentDetails',
         id=video_id
@@ -22,6 +35,20 @@ def get_video_length(video_id):
 
 
 def is_shorter_than_1min(video_id):
+    """
+    Check if a youtube video is shorter than 1 minute.
+    
+    Parameters
+    ----------
+    video_id : String
+        The youtube video id.
+
+    Returns
+    -------
+    Boolean
+        True if the video is shorter than 1 minute.
+    """
+
     x = get_video_length(video_id)
     if "M" not in x and "H" not in x and "S" in x:
         return True
@@ -29,6 +56,20 @@ def is_shorter_than_1min(video_id):
 
 
 def get_recommendation(video_url):
+    """
+    Get the recommendations for a youtube video.
+    
+    Parameters
+    ----------
+    video_url : String
+        The youtube video url.
+
+    Returns
+    -------
+    List
+        The recommendations for the video (Video IDs).
+    """
+    
     # init an HTML Session
     session = HTMLSession()
     # get the html content
@@ -40,8 +81,7 @@ def get_recommendation(video_url):
     # create bs object to parse HTML
     soup = bs(response.html.html, "html.parser")
 
-    recom_ids = []
-    recom_ids.append('video_url')
+    recom_ids = ['video_url']
 
     for a in soup.find_all('a', href=True):
         x = a['href']
@@ -56,6 +96,22 @@ def get_recommendation(video_url):
 
 
 def rabit(video_url, found_list):
+    """
+    Get the recommendations for a youtube video.
+
+    Parameters
+    ----------
+    video_url : String
+        The youtube video url.
+    found_list : List
+        The list of already found Vidoes.
+
+    Returns
+    -------
+    List
+        The found videos (Video IDs).
+    """
+    
     if found_list.__len__() >= 50:
         return found_list
 
