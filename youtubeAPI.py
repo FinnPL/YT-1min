@@ -12,7 +12,7 @@ import googleapiclient.discovery
 scopes = ["https://www.googleapis.com/auth/youtube.force-ssl"]
 
 
-def main():
+def playlistMaker(Name, Description, Privacy, Videos):
     """Creates a new playlist in the authorized user's channel."""
 
     # Disable OAuthlib's HTTPS verification when running locally.
@@ -34,18 +34,37 @@ def main():
         part="snippet,status",
         body={
             "snippet": {
-                "title": "New playlist",
-                "description": "New playlist description"
+                "title": Name,
+                "description": Description,
             },
             "status": {
-                "privacyStatus": "private"
+                "privacyStatus": Privacy
             }
         }
     )
     response = request.execute()
+    #get id of playlist
+    playlist_id = response['id']
 
     print(response)
 
+    #add videos to playlist
+    for video in Videos:
+        request = youtube.playlistItems().insert(
+            part="snippet",
+            body={
+                "snippet": {
+                    "playlistId": playlist_id,
+                    "resourceId": {
+                        "kind": "youtube#video",
+                        "videoId": video
+                    }
+                }
+            }
+        )
+        response = request.execute()
+        print(response)
+        
 
 if __name__ == "__main__":
-    main()
+    playlistMaker("Süer", "Test", "private", ["dQw4w9WgXcQ", "xqFTe96OWPU", "4xF8e13rano"])

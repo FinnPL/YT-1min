@@ -1,3 +1,4 @@
 config.py
 __pycache__/config.cpython-310.pyc
 env/
+YOUR_CLIENT_SECRET_FILE.json
