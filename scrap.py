@@ -1,10 +1,10 @@
+import time
+import re
 from urllib import request, response
 from googleapiclient.discovery import build
 from requests_html import HTMLSession
 from bs4 import BeautifulSoup as bs
 import config
-import time
-import re
 
 api_key = config.api_key
 
@@ -48,8 +48,8 @@ def is_shorter_than_1min(video_id):
     Boolean
         True if the video is shorter than 1 minute.
     """
-    x = get_video_length(video_id)
-    if "M" not in x and "H" not in x and "S" in x:
+    length  = get_video_length(video_id)
+    if "M" not in length  and "H" not in length  and "S" in length :
         return True
     return False
 
@@ -81,13 +81,13 @@ def get_recommendation(video_url):
 
     recom_ids = ['video_url']
 
-    for a in soup.find_all('a', href=True):
-        x = a['href']
-        if re.search(r"/watch\?v=", x):
-            x = x.replace("/watch?v=", "")
-            x = x.replace('https://www.youtube.com', '')
-            if x not in recom_ids and "&pp=" not in x and "&t=" not in x and "&list=" not in x:
-                recom_ids.append(x)
+    for tag in soup.find_all('a', href=True):
+        link = tag['href']
+        if re.search(r"/watch\?v=", link):
+            link = link.replace("/watch?v=", "")
+            link = link.replace('https://www.youtube.com', '')
+            if link not in recom_ids and "&pp=" not in link and "&t=" not in link and "&list=" not in link:
+                recom_ids.append(link)
 
     recom_ids.remove('video_url')
     return recom_ids
@@ -120,14 +120,17 @@ def rabit(video_url, found_list):
         return
     for i in list:
         if is_shorter_than_1min(i) and i not in found_list:
-             print("Video gefunden: " + i)
-             found_list.append(i)
-             return_list = rabit(
+            print("Video gefunden: " + i)
+            found_list.append(i)
+            return_list = rabit(
                     "https://www.youtube.com/watch?v="+i, found_list)
-             if return_list:
-                 return return_list
+            if return_list:
+                return return_list
 
 def main():
+    """
+    MAIN TEST FUNCTION
+    """
     found_list = []
     list2 = []
     list2 = rabit("https://www.youtube.com/watch?v=hdWFXa_KqN0", found_list)
