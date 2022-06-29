@@ -14,7 +14,6 @@ scopes = ["https://www.googleapis.com/auth/youtube.force-ssl"]
 
 def playlistMaker(Name, Description, Privacy, Videos):
     """Creates a new playlist in the authorized user's channel."""
-
     # Disable OAuthlib's HTTPS verification when running locally.
     # *DO NOT* leave this option enabled in production.
     os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
