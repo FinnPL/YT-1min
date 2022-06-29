@@ -48,8 +48,8 @@ def is_shorter_than_1min(video_id):
     Boolean
         True if the video is shorter than 1 minute.
     """
-    length  = get_video_length(video_id)
-    if "M" not in length  and "H" not in length  and "S" in length :
+    length = get_video_length(video_id)
+    if "M" not in length and "H" not in length and "S" in length :
         return True
     return False
 
@@ -128,9 +128,7 @@ def rabit(video_url, found_list):
                 return return_list
 
 def main():
-    """
-    MAIN TEST FUNCTION
-    """
+    """MAIN TEST FUNCTION"""
     found_list = []
     list2 = []
     list2 = rabit("https://www.youtube.com/watch?v=hdWFXa_KqN0", found_list)
