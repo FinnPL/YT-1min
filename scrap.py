@@ -1,6 +1,5 @@
 import time
 import re
-from urllib import request, response
 from googleapiclient.discovery import build
 from requests_html import HTMLSession
 from bs4 import BeautifulSoup as bs
@@ -14,12 +13,12 @@ youtube = build('youtube', 'v3', developerKey=api_key)
 # Get youtube video length
 def get_video_length(video_id):
     """
-    Get the length of a youtube video.
+    Get the length of a YouTube video.
 
     Parameters
     ----------
     video_id : String
-        The youtube video id.
+        The YouTube video id.
 
     Returns
     -------
@@ -36,12 +35,12 @@ def get_video_length(video_id):
 
 def is_shorter_than_1min(video_id):
     """
-    Check if a youtube video is shorter than 1 minute.
+    Check if a YouTube video is shorter than 1 minute.
 
     Parameters
     ----------
     video_id : String
-        The youtube video id.
+        The YouTube video id.
 
     Returns
     -------
@@ -56,12 +55,12 @@ def is_shorter_than_1min(video_id):
 
 def get_recommendation(video_url):
     """
-    Get the recommendations for a youtube video.
+    Get the recommendations for a YouTube video.
 
     Parameters
     ----------
     video_url : String
-        The youtube video url.
+        The YouTube video url.
 
     Returns
     -------
@@ -95,14 +94,14 @@ def get_recommendation(video_url):
 
 def rabit(video_url, found_list):
     """
-    Get the recommendations for a youtube video.
+    Get the recommendations for a YouTube video.
 
     Parameters
     ----------
     video_url : String
-        The youtube video url.
+        The YouTube video url.
     found_list : List
-        The list of already found Vidoes.
+        The list of already found Videos.
 
     Returns
     -------
@@ -126,15 +125,3 @@ def rabit(video_url, found_list):
                     "https://www.youtube.com/watch?v="+i, found_list)
             if return_list:
                 return return_list
-
-def main():
-    """MAIN TEST FUNCTION"""
-    found_list = []
-    list2 = []
-    list2 = rabit("https://www.youtube.com/watch?v=hdWFXa_KqN0", found_list)
-    for i in list2:
-        print("https://www.youtube.com/watch?v="+i)
-
-
-if __name__ == "__main__":
-    main()

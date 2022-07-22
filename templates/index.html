@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Youtube-1min</title>
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/index.css') }}">
+</head>
+<body>
+    <h1>Enter YouTube Video URL</h1>
+ <div class="container">
+
+  <div class="demo-flex-spacer"></div>
+
+  <div class="webflow-style-input">
+    <input class="" type="url" placeholder="Enter URL here"></input>
+    <button type="submit"><i class="icon ion-android-arrow-forward"></i></button>
+  </div>
+    <script>
+        let input = document.querySelector('.webflow-style-input input');
+        input.addEventListener('keypress', function (event) {
+            if (event.keyCode === 13) {
+                //split the input at = and get the second part
+                let id = input.value.split('=')[1];
+                //if the url is not empty, redirect to the url
+                if (id) {
+                window.location.href = './list/video?id=' + id;
+                } else {
+                    alert('Please enter a valid URL');
+                }
+            }
+        });
+    </script>
+    <div class="demo-flex-spacer"></div>
+    <div class="demo-flex-spacer"></div>
+    </div>
+
+</body>
+</html>
